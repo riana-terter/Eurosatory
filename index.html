@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurosatory 2026 — Plan de vol / Flight Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Saira:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#060A12;
+  --panel:#0B1322;
+  --panel-2:#0E1830;
+  --line:#1B2A45;
+  --cyan:#4FD8EB;
+  --cyan-dim:rgba(79,216,235,.16);
+  --amber:#FFB454;
+  --text:#D9E4F1;
+  --muted:#7E8DA6;
+  --radius:10px;
+  font-size:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  color:var(--text);
+  font-family:'Saira',system-ui,sans-serif;
+  font-weight:300;
+  line-height:1.55;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  background:var(--void);
+}
+/* ---------- universe background ---------- */
+.cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79,216,235,.08), transparent 60%),
+    var(--void);
+}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:32px 20px 64px}
+.nebula-1{position:absolute;width:560px;height:420px;top:24%;right:-12%;
+  background:radial-gradient(ellipse at center, rgba(124,92,210,.14), rgba(124,92,210,.05) 45%, transparent 70%);}
+.nebula-2{position:absolute;width:480px;height:380px;bottom:-6%;left:-10%;
+  background:radial-gradient(ellipse at center, rgba(79,216,235,.10), transparent 70%);}
+.stars,.stars2{position:absolute;inset:0}
+.stars{background-image:
+  radial-gradient(1.5px 1.5px at 12% 28%, rgba(217,228,241,.8) 0, transparent 100%),
+  radial-gradient(1px 1px at 78% 12%, rgba(217,228,241,.6) 0, transparent 100%),
+  radial-gradient(2px 2px at 64% 64%, rgba(217,228,241,.6) 0, transparent 100%),
+  radial-gradient(1px 1px at 32% 80%, rgba(217,228,241,.5) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 90% 45%, rgba(217,228,241,.65) 0, transparent 100%),
+  radial-gradient(1px 1px at 6% 60%, rgba(217,228,241,.55) 0, transparent 100%),
+  radial-gradient(2px 2px at 45% 10%, rgba(217,228,241,.5) 0, transparent 100%),
+  radial-gradient(1px 1px at 55% 92%, rgba(217,228,241,.6) 0, transparent 100%),
+  radial-gradient(1px 1px at 22% 45%, rgba(217,228,241,.4) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 85% 78%, rgba(217,228,241,.55) 0, transparent 100%),
+  radial-gradient(1px 1px at 40% 38%, rgba(217,228,241,.45) 0, transparent 100%),
+  radial-gradient(1px 1px at 70% 30%, rgba(217,228,241,.5) 0, transparent 100%),
+  radial-gradient(1px 1px at 18% 8%, rgba(217,228,241,.5) 0, transparent 100%),
+  radial-gradient(1px 1px at 60% 50%, rgba(217,228,241,.35) 0, transparent 100%);
+}
+.stars2{background-image:
+  radial-gradient(1.5px 1.5px at 38% 22%, rgba(79,216,235,.8) 0, transparent 100%),
+  radial-gradient(1px 1px at 70% 55%, rgba(79,216,235,.6) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 15% 88%, rgba(255,180,84,.7) 0, transparent 100%),
+  radial-gradient(1px 1px at 95% 25%, rgba(255,180,84,.55) 0, transparent 100%),
+  radial-gradient(1px 1px at 50% 75%, rgba(79,216,235,.5) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 8% 35%, rgba(255,180,84,.5) 0, transparent 100%);
+}
+@media (prefers-reduced-motion: no-preference){
+  .stars2{animation:twinkle 5s ease-in-out infinite alternate}
+  @keyframes twinkle{from{opacity:.35}to{opacity:1}}
+}
+.planet{position:absolute;border-radius:50%}
+.planet-1{
+  width:380px;height:380px;top:-150px;right:-110px;opacity:.85;
+  background:radial-gradient(circle at 32% 32%, #1E3252 0%, #122039 45%, #080F1E 78%);
+  box-shadow:inset -40px -25px 70px rgba(0,0,0,.65), 0 0 110px rgba(79,216,235,.08);
+}
+.planet-1::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:linear-gradient(115deg, transparent 38%, rgba(79,216,235,.07) 42%, transparent 50%, rgba(79,216,235,.05) 58%, transparent 64%);}
+.planet-2{
+  width:80px;height:80px;top:40%;left:-26px;opacity:.7;
+  background:radial-gradient(circle at 30% 30%, #38507A 0%, #16243F 60%, #0A1224 100%);
+  box-shadow:0 0 40px rgba(79,216,235,.06);
+}
+.planet-3{
+  width:110px;height:110px;bottom:11%;right:5%;opacity:.8;
+  background:radial-gradient(circle at 35% 30%, #4C4066 0%, #241F3D 60%, #0E0C20 100%);
+  box-shadow:0 0 50px rgba(124,92,210,.10);
+}
+.ring{position:absolute;bottom:calc(11% + 36px);right:calc(5% - 42px);width:194px;height:44px;
+  border:1.5px solid rgba(150,160,190,.45);border-radius:50%;
+  transform:rotate(-18deg);pointer-events:none;
+}
+.shooting{position:absolute;top:14%;left:18%;width:120px;height:1.5px;opacity:0;
+  background:linear-gradient(90deg, rgba(217,228,241,.9), transparent);transform:rotate(-28deg);}
+@media (prefers-reduced-motion: no-preference){
+  .shooting{animation:shoot 11s ease-in 4s infinite}
+  @keyframes shoot{0%{opacity:0;transform:rotate(-28deg) translateX(0)}2%{opacity:.9}6%{opacity:0;transform:rotate(-28deg) translateX(240px)}100%{opacity:0}}
+}
+
+/* ---------- header ---------- */
+.head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.22em;
+  color:var(--cyan);text-transform:uppercase;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";display:inline-block;width:34px;height:1px;background:var(--cyan)}
+.lang{display:flex;gap:2px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:rgba(11,19,34,.8)}
+.lang button{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+  background:transparent;color:var(--muted);border:none;padding:6px 12px;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.lang button:hover{color:var(--text)}
+.lang button.on{background:var(--cyan-dim);color:var(--cyan)}
+.lang button:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+h1{
+  font-family:'Chakra Petch',sans-serif;font-weight:700;
+  font-size:clamp(1.9rem,5vw,3.1rem);letter-spacing:.04em;line-height:1.08;
+  margin:14px 0 8px;text-transform:uppercase;
+}
+h1 .thin{color:var(--muted);font-weight:500}
+.sub{color:var(--muted);max-width:660px;font-size:.97rem}
+.sub b{color:var(--text);font-weight:500}
+
+/* ---------- day tabs ---------- */
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:34px 0 0}
+.day{
+  background:rgba(11,19,34,.85);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 12px 10px;cursor:pointer;text-align:left;color:var(--text);
+  font-family:inherit;transition:border-color .2s, background .2s, transform .15s;
+  position:relative;overflow:hidden;
+}
+.day:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.day:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.day .d-num{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.18em}
+.day .d-date{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1.02rem;margin:2px 0}
+.day .d-theme{font-size:.74rem;color:var(--muted);line-height:1.3}
+.day.active{background:var(--panel-2);border-color:var(--cyan)}
+.day.active::after{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+}
+.day.active .d-num{color:var(--cyan)}
+
+/* ---------- day banner ---------- */
+.banner{
+  margin-top:14px;background:linear-gradient(90deg,var(--cyan-dim),rgba(11,19,34,.6) 70%);
+  border:1px solid var(--line);border-left:3px solid var(--cyan);
+  border-radius:var(--radius);padding:16px 18px;
+}
+.banner h2{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1.15rem;letter-spacing:.03em;text-transform:uppercase}
+.banner p{color:var(--muted);font-size:.93rem;margin-top:4px;max-width:760px}
+
+/* ---------- section titles ---------- */
+.sec-title{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--cyan);margin:38px 0 14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--line);min-width:40px}
+.sec-title.tight{margin-top:24px}
+.sec-note{font-size:.8rem;color:var(--muted);margin:-8px 0 14px;font-style:italic}
+
+/* ---------- view toggle ---------- */
+.view-toggle{display:flex;gap:2px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:rgba(11,19,34,.8)}
+.view-toggle button{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;color:var(--muted);border:none;padding:6px 12px;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.view-toggle button:hover{color:var(--text)}
+.view-toggle button.on{background:var(--cyan-dim);color:var(--cyan)}
+.view-toggle button:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
+
+/* ---------- conferences ---------- */
+.conf-list{display:flex;flex-direction:column;gap:10px}
+.conf{
+  display:grid;grid-template-columns:118px 1fr;gap:14px;
+  background:rgba(11,19,34,.85);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 44px 14px 16px;transition:border-color .2s;position:relative;
+}
+.conf:hover{border-color:var(--cyan)}
+.conf.faved{border-color:rgba(255,180,84,.5)}
+.conf .when{border-right:1px solid var(--line);padding-right:12px;align-self:start;display:flex;flex-direction:column;gap:3px}
+.conf time{font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--amber)}
+.conf .dlabel{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--cyan);letter-spacing:.1em}
+.conf .room{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.conf h4{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1rem;letter-spacing:.02em}
+.conf .spk{font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--cyan);margin-top:2px}
+.conf .spk::before{content:"▸ ";color:var(--muted)}
+.conf p{color:var(--muted);font-size:.88rem;margin-top:4px}
+.tag{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);
+  border:1px solid var(--line);border-radius:4px;padding:2px 7px;margin-top:8px;
+}
+.fav{
+  position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:6px;
+  background:transparent;border:1px solid var(--line);color:var(--muted);
+  font-size:1rem;line-height:1;cursor:pointer;transition:color .2s,border-color .2s,background .2s;
+}
+.fav:hover{border-color:var(--amber);color:var(--amber)}
+.fav.on{color:var(--amber);border-color:var(--amber);background:rgba(255,180,84,.1)}
+.fav:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.mine-empty{
+  color:var(--muted);font-size:.9rem;border:1px dashed var(--line);border-radius:8px;
+  padding:24px;text-align:center;
+}
+.mine-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.copy-btn{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(11,19,34,.85);border:1px solid var(--line);color:var(--cyan);border-radius:6px;
+  padding:8px 14px;cursor:pointer;transition:border-color .2s;
+}
+.copy-btn:hover{border-color:var(--cyan)}
+.mine-note{font-size:.74rem;color:var(--muted);font-style:italic}
+
+/* ---------- map grid ---------- */
+.map-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:stretch}
+.map-card,.zone-card{
+  background:rgba(11,19,34,.85);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;
+}
+.map-card{position:relative}
+.map-note{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+svg{width:100%;height:auto;display:block}
+.hall{
+  fill:var(--panel-2);stroke:var(--line);stroke-width:1.5;cursor:pointer;
+  transition:fill .2s, stroke .2s;
+}
+g.zone:hover .hall{fill:#13223E;stroke:var(--cyan)}
+.hall.sel{fill:var(--cyan-dim);stroke:var(--cyan);stroke-width:2}
+.hall-label{
+  font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:15px;fill:var(--text);
+  pointer-events:none;text-transform:uppercase;letter-spacing:.05em;
+}
+.hall-label.sm{font-size:11px}
+.hall-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+g.poi{cursor:pointer}
+.pmark{fill:#0E1830;stroke:#2A3A58;stroke-width:1;transition:stroke .2s,fill .2s}
+g.poi:hover .pmark{stroke:var(--cyan)}
+.pmark.sel{stroke:var(--cyan);fill:var(--cyan-dim)}
+.ptext{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--muted);pointer-events:none}
+.amen{fill:#0E1830;stroke:var(--amber);stroke-width:1;transition:stroke-width .2s,fill .2s}
+g.poi:hover .amen{stroke-width:2}
+.amen.sel{fill:rgba(255,180,84,.18);stroke-width:2}
+.amen-t{font-family:'IBM Plex Mono',monospace;font-size:8px;fill:var(--amber);pointer-events:none}
+.road{stroke:#15233C;stroke-width:8;fill:none;opacity:.8}
+.road-t{font-family:'IBM Plex Mono',monospace;font-size:9px;fill:#33476B;letter-spacing:.2em}
+.rer-line{stroke:#2A3A58;stroke-width:2.5;stroke-dasharray:7 5;fill:none}
+.reticle{stroke:var(--amber);stroke-width:1.4;fill:none;pointer-events:none;opacity:0;transition:opacity .25s}
+.reticle.on{opacity:1}
+.sweep{transform-origin:450px 270px;opacity:.45}
+@media (prefers-reduced-motion: no-preference){
+  .sweep{animation:spin 10s linear infinite}
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- zone detail ---------- */
+.zone-card{display:flex;flex-direction:column;gap:10px;min-height:330px}
+.zone-card .z-id{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase}
+.zone-card h3{font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em}
+.zone-card p{color:var(--muted);font-size:.92rem}
+.z-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.z-list li{border-bottom:1px dashed var(--line);padding-bottom:7px;font-size:.92rem;font-weight:400}
+.z-empty{color:var(--muted);font-size:.9rem;border:1px dashed var(--line);border-radius:8px;padding:18px;text-align:center;margin:auto 0}
+
+/* ---------- practical ---------- */
+.prac{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.p-card{
+  border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;background:rgba(11,19,34,.85);
+  transition:border-color .2s;
+}
+.p-card:hover{border-color:var(--cyan)}
+.p-card .p-ico{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--amber);letter-spacing:.18em;
+  text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:6px;
+}
+.p-card .p-ico::before{content:"";width:7px;height:7px;background:var(--amber);box-shadow:0 0 8px var(--amber);transform:rotate(45deg);flex:0 0 auto}
+.p-card .p-body{color:var(--muted);font-size:.86rem}
+.p-card .p-body b{color:var(--text);font-weight:500}
+
+/* ---------- targets ---------- */
+.targets{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.t-card{
+  border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;background:rgba(11,19,34,.85);
+  display:flex;flex-direction:column;gap:2px;transition:border-color .2s;
+}
+.t-card:hover{border-color:var(--amber)}
+.t-card .t-name{
+  font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:.95rem;letter-spacing:.02em;
+  display:flex;align-items:center;gap:8px;
+}
+.t-card .t-name::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);flex:0 0 auto}
+.t-card .t-desc{color:var(--muted);font-size:.82rem;padding-left:15px}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:48px;border-top:1px solid var(--line);padding-top:16px;
+  font-size:.78rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;
+  display:flex;flex-wrap:wrap;gap:6px 24px;
+}
+
+@media (max-width:760px){
+  .days{grid-template-columns:repeat(2,1fr)}
+  .days .day:last-child{grid-column:span 2}
+  .map-grid{grid-template-columns:1fr}
+  .conf{grid-template-columns:1fr}
+  .conf .when{border-right:none;border-bottom:1px solid var(--line);padding:0 0 8px;flex-direction:row;gap:12px;align-items:baseline;flex-wrap:wrap}
+  .planet-1{width:240px;height:240px;top:-110px;right:-90px}
+}
+</style>
+</head>
+<body>
+<div class="cosmos">
+  <div class="nebula-1"></div>
+  <div class="nebula-2"></div>
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="planet planet-1"></div>
+  <div class="planet planet-2"></div>
+  <div class="planet planet-3"></div>
+  <div class="ring"></div>
+  <div class="shooting"></div>
+</div>
+
+<div class="wrap">
+
+  <header>
+    <div class="head-row">
+      <div class="eyebrow" id="hEyebrow"></div>
+      <div class="lang" role="group" aria-label="Language">
+        <button id="btnFr" class="on">FR</button>
+        <button id="btnEn">EN</button>
+      </div>
+    </div>
+    <h1><span id="hTitle"></span> <span class="thin" id="hThin"></span></h1>
+    <p class="sub" id="hSub"></p>
+  </header>
+
+  <nav class="days" id="dayTabs" aria-label="Days"></nav>
+
+  <div class="banner" id="dayBanner">
+    <h2 id="bTitle"></h2>
+    <p id="bDesc"></p>
+  </div>
+
+  <div class="sec-title tight"><span id="secConf"></span><div class="view-toggle" role="group">
+    <button id="viewDay"></button><button id="viewMine"></button>
+  </div></div>
+  <p class="sec-note" id="confNote"></p>
+  <div class="conf-list" id="confList"></div>
+
+  <div class="sec-title" id="secMap"></div>
+  <div class="map-grid">
+    <div class="map-card">
+      <div class="map-note" id="mapNote"></div>
+      <svg viewBox="0 0 880 580" role="img" aria-label="Site map">
+        <defs>
+          <radialGradient id="sweepGrad" cx="0" cy="0" r="1">
+            <stop offset="0%" stop-color="rgba(79,216,235,.22)"/>
+            <stop offset="100%" stop-color="rgba(79,216,235,0)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- roads -->
+        <path class="road" d="M 830 20 C 845 180 850 360 805 560"/>
+        <text class="road-t" x="836" y="300" transform="rotate(86 836 300)">A104</text>
+        <path class="road" d="M 20 320 C 60 420 120 510 240 565"/>
+        <text class="road-t" x="42" y="420" transform="rotate(58 42 420)">D40</text>
+
+        <!-- radar rings -->
+        <g stroke="#13203A" fill="none">
+          <circle cx="450" cy="270" r="110"/>
+          <circle cx="450" cy="270" r="220"/>
+          <circle cx="450" cy="270" r="330"/>
+        </g>
+        <g class="sweep"><path d="M450 270 L450 -60 A330 330 0 0 1 736 105 Z" fill="url(#sweepGrad)"/></g>
+
+        <!-- RER -->
+        <path class="rer-line" d="M 50 540 L 830 512"/>
+        <g class="poi" id="mRER" data-cx="430" data-cy="526">
+          <circle class="pmark" cx="430" cy="526" r="13"/>
+          <text class="ptext" x="430" y="529" text-anchor="middle">RER</text>
+          <text class="ptext" x="430" y="551" text-anchor="middle">RER B · PARC DES EXPOSITIONS</text>
+        </g>
+
+        <!-- zones -->
+        <g class="zone" id="zDemo" data-cx="195" data-cy="60">
+          <rect class="hall" x="125" y="22" width="140" height="76" rx="6" transform="rotate(-7 195 60)"/>
+          <text class="hall-label sm" x="195" y="58" text-anchor="middle" transform="rotate(-7 195 60)" id="lblDemo"></text>
+          <text class="hall-sub" x="195" y="74" text-anchor="middle" transform="rotate(-7 195 60)" id="subDemo"></text>
+        </g>
+        <g class="zone" id="zHall5B" data-cx="460" data-cy="95">
+          <rect class="hall" x="295" y="60" width="330" height="70" rx="6" transform="rotate(-4 460 95)"/>
+          <text class="hall-label" x="460" y="92" text-anchor="middle" transform="rotate(-4 460 95)">Hall 5B</text>
+          <text class="hall-sub" x="460" y="110" text-anchor="middle" transform="rotate(-4 460 95)" id="sub5B"></text>
+        </g>
+        <g class="zone" id="zHall4" data-cx="235" data-cy="272">
+          <rect class="hall" x="150" y="212" width="170" height="120" rx="6" transform="rotate(-20 235 272)"/>
+          <text class="hall-label" x="235" y="268" text-anchor="middle" transform="rotate(-20 235 272)">Hall 4</text>
+          <text class="hall-sub" x="235" y="286" text-anchor="middle" transform="rotate(-20 235 272)" id="sub4"></text>
+        </g>
+        <g class="zone" id="zHall5A" data-cx="445" data-cy="248">
+          <rect class="hall" x="357" y="188" width="176" height="120" rx="6" transform="rotate(-8 445 248)"/>
+          <text class="hall-label" x="445" y="244" text-anchor="middle" transform="rotate(-8 445 248)">Hall 5A</text>
+          <text class="hall-sub" x="445" y="262" text-anchor="middle" transform="rotate(-8 445 248)" id="sub5A"></text>
+        </g>
+        <g class="zone" id="zHall6" data-cx="655" data-cy="255">
+          <rect class="hall" x="570" y="195" width="170" height="120" rx="6" transform="rotate(22 655 255)"/>
+          <text class="hall-label" x="655" y="251" text-anchor="middle" transform="rotate(22 655 255)">Hall 6</text>
+          <text class="hall-sub" x="655" y="269" text-anchor="middle" transform="rotate(22 655 255)" id="sub6"></text>
+        </g>
+        <g class="zone" id="zPlaza" data-cx="462" data-cy="420">
+          <polygon class="hall" points="462,364 502,381 519,420 502,459 462,476 422,459 405,420 422,381"/>
+          <text class="hall-label sm" x="462" y="417" text-anchor="middle" id="lblPlaza"></text>
+          <text class="hall-sub" x="462" y="433" text-anchor="middle" id="subPlaza"></text>
+        </g>
+
+        <!-- parkings -->
+        <g class="poi" id="mP1" data-cx="59" data-cy="54">
+          <rect class="pmark" x="44" y="46" width="30" height="16" rx="3"/><text class="ptext" x="59" y="58" text-anchor="middle">P1</text>
+        </g>
+        <g class="poi" id="mP11a" data-cx="111" data-cy="124">
+          <rect class="pmark" x="92" y="116" width="38" height="16" rx="3"/><text class="ptext" x="111" y="128" text-anchor="middle">P11a</text>
+        </g>
+        <g class="poi" id="mP3" data-cx="703" data-cy="58">
+          <rect class="pmark" x="688" y="50" width="30" height="16" rx="3"/><text class="ptext" x="703" y="62" text-anchor="middle">P3</text>
+        </g>
+        <g class="poi" id="mPe5" data-cx="657" data-cy="126">
+          <rect class="pmark" x="640" y="118" width="34" height="16" rx="3"/><text class="ptext" x="657" y="130" text-anchor="middle">Pe5</text>
+        </g>
+        <g class="poi" id="mPe4" data-cx="289" data-cy="166">
+          <rect class="pmark" x="272" y="158" width="34" height="16" rx="3"/><text class="ptext" x="289" y="170" text-anchor="middle">Pe4</text>
+        </g>
+        <g class="poi" id="mPe1" data-cx="333" data-cy="506">
+          <rect class="pmark" x="316" y="498" width="34" height="16" rx="3"/><text class="ptext" x="333" y="510" text-anchor="middle">Pe1</text>
+        </g>
+
+        <!-- amenities -->
+        <g class="poi" id="mFood" data-cx="528" data-cy="392">
+          <circle class="amen" cx="528" cy="392" r="9"/><text class="amen-t" x="528" y="395" text-anchor="middle">R</text>
+        </g>
+        <g class="poi" id="mInfo" data-cx="512" data-cy="466">
+          <circle class="amen" cx="512" cy="466" r="9"/><text class="amen-t" x="512" y="469" text-anchor="middle">i</text>
+        </g>
+        <g class="poi" id="mWC" data-cx="408" data-cy="466">
+          <circle class="amen" cx="408" cy="466" r="9"/><text class="amen-t" x="406" y="469" text-anchor="middle">WC</text>
+        </g>
+        <g class="poi" id="mInfo2" data-cx="648" data-cy="148">
+          <circle class="amen" cx="648" cy="148" r="9"/><text class="amen-t" x="648" y="151" text-anchor="middle">i</text>
+        </g>
+
+        <!-- reticle -->
+        <g class="reticle" id="reticle">
+          <circle id="retC" cx="0" cy="0" r="26"/>
+          <line id="retL1" x1="0" y1="0" x2="0" y2="0"/>
+          <line id="retL2" x1="0" y1="0" x2="0" y2="0"/>
+        </g>
+      </svg>
+      <div class="map-note" style="margin:10px 0 0" id="mapLegend"></div>
+    </div>
+
+    <aside class="zone-card" id="zoneCard" aria-live="polite"></aside>
+  </div>
+
+  <div class="sec-title" id="secPrac"></div>
+  <div class="prac" id="pracList"></div>
+
+  <div class="sec-title" id="secTargets"></div>
+  <div class="targets" id="targetList"></div>
+
+  <footer id="pageFooter"></footer>
+</div>
+
+<script>
+const I18N = {
+fr:{
+  eyebrow:"Eurosatory 2026 · Paris-Nord Villepinte · 15–19 juin",
+  title:"Plan de vol", thin:"/ guide visiteur",
+  sub:'Le salon mondial de la défense terrestre et aéroterrestre : <b>2 000+ exposants</b>, <b>185 000 m²</b>, <b>120+ conférences</b>. Sélectionnez un jour, touchez une zone, préparez votre trajectoire.',
+  secConf:"Conférences",
+  viewDay:"Programme du jour", viewMine:"Ma sélection",
+  confNote:"Sélection officielle — conférences du ministère des Armées. Plus de 120 conférences au total : programme complet sur l'app Eurosatory. Touchez ★ pour bâtir votre agenda.",
+  mineEmpty:"Votre sélection est vide.<br>Parcourez les jours et touchez ★ sur les conférences qui vous intéressent.",
+  mineNote:"Sélection conservée le temps de la session (réinitialisée au rechargement) — copiez-la pour la garder.",
+  copyBtn:"Copier ma sélection", copied:"Copié ✓",
+  secMap:"Carte tactique — site de Villepinte",
+  secPrac:"Infos pratiques",
+  secTargets:"Cibles prioritaires — exposants à repérer",
+  mapNote:"D'après le plan officiel · tout est touchable : halls, parkings, services",
+  mapLegend:"P parkings · R restauration · i point info · WC sanitaires · RER B au sud",
+  zoneEmpty:"Aucune zone sélectionnée.<br>Touchez un hall, un parking ou un repère sur la carte.",
+  footer:["SOURCES : EUROSATORY.COM · PROGRAMME : MINISTÈRE DES ARMÉES, RÉUTILISÉ SOUS LICENCE OUVERTE ETALAB 2.0","HORAIRES & EMPLACEMENTS À VÉRIFIER SUR L'APP OFFICIELLE","<span style='color: #ffb454'>GUIDE NON OFFICIEL préparée par ", "<a href='https://www.linkedin.com/in/rianago' style='color: #4fd8eb'>Riana Terter"],
+  subs:{sub4:"NOUVEAU · 2026",sub5A:"SYSTÉMIERS",sub5B:"EUROSATORY LAB",sub6:"CLUSTERS TECH",lblDemo:"Zone démos",subDemo:"DÉMONSTRATIONS",lblPlaza:"Esplanade",subPlaza:"SERVICES"},
+  days:[
+   {num:"J1",date:"LUN 15",short:"Ouverture & aéroterrestre",
+    title:"Lundi 15 — Ouverture & opérations aéroterrestres",
+    desc:"Coup d'envoi du salon. Les keynotes institutionnelles posent les grands thèmes 2026 : transformation capacitaire, adaptation aux nouveaux environnements opérationnels et supériorité multi-domaines.",
+    confs:[
+     {t:"13:00–13:30",room:"Salle BRAVO",n:"Hélicoptères & projection aéroterrestre tactique",sp:"GBR Doutaud (EALAT)",d:"Le rôle des hélicoptères dans les opérations aéroterrestres : vitesse, profondeur, flexibilité et intégration des drones.",tag:"Aéromobilité"},
+     {t:"14:00–15:00",room:"Salle CHARLIE",n:"Interopérabilité & coalitions élargies",sp:"GCA de Montenon (FR) · GCA Stenning (UK)",d:"Coordination et partage de l'information entre forces alliées, sous l'angle technologique et numérique.",tag:"Coalition"},
+     {t:"15:00–16:00",room:"Salle BRAVO",n:"Action aéroterrestre future — horizon 2040",sp:"COL Lorvoire · COL Doithier (CCF)",d:"Le nouveau document stratégique de l'armée de Terre : vision prospective du combat aéroterrestre et capacités à préparer.",tag:"Prospective"},
+     {t:"15:00–15:30",room:"Salle CHARLIE",n:"Allocution du major général de l'Armée de l'Air et de l'Espace",sp:"Armée de l'Air et de l'Espace",d:"Priorités de l'AAE : transformation capacitaire, nouveaux environnements opérationnels, supériorité multi-domaines.",tag:"Institutionnel"},
+     {t:"15:30–16:00",room:"Salle CHARLIE",n:"Allocution du Délégué général pour l'armement (à confirmer)",sp:"DGA",d:"Enjeux capacitaires, industriels et technologiques de la préparation des équipements de défense.",tag:"Institutionnel"},
+     {t:"16:30–17:00",room:"Studio ESY TV",n:"Entretien — industrialisation de l'innovation",sp:"GCA Baratz (Commandement du combat futur)",d:"L'industrialisation de l'innovation au service de la transformation de l'armée de Terre.",tag:"Innovation"}]},
+   {num:"J2",date:"MAR 16",short:"Transformation, data & coalition",
+    title:"Mardi 16 — Transformation de l'armée de Terre & combat connecté",
+    desc:"Journée dense : le CEMAT en plateau, le réseau de combat data-centré TITAN, la coopération franco-belge CAMO et un RETEX Ukraine avec un officier ukrainien. Idéale pour les profils transformation & numérique.",
+    confs:[
+     {t:"10:00–12:00",room:"Studio COGES TV",n:"Entretien avec le chef d'état-major de l'armée de Terre",sp:"CEMAT",d:"Transformation des forces terrestres, enjeux capacitaires, innovation opérationnelle et préparation des engagements futurs.",tag:"Institutionnel"},
+     {t:"10:00–11:00",room:"Salle CHARLIE",n:"Hubs exploratoires & innovation locale",sp:"GCI Amonnier · M. Boyer · CNE Lefebvre · ADJ Gledel",d:"Les hubs créés par le Commandement du combat futur pour canaliser l'innovation et fédérer des écosystèmes locaux.",tag:"Innovation"},
+     {t:"11:30–12:00",room:"Salle CHARLIE",n:"TITAN — vers un réseau de combat data-centré",sp:"COL Picot (EMAT)",d:"Cloud de défense et données tactiques : les architectures futures du combat connecté.",tag:"Numérique"},
+     {t:"11:30–12:30",room:"Zone démos",n:"Présentation dynamique de l'armée de Terre",sp:"Armée de Terre",d:"Engagement de haute intensité : une force interopérable, numérisée, capable de vaincre en coalition.",tag:"Démo"},
+     {t:"12:00–13:00",room:"Salle CHARLIE",n:"Coopération capacitaire : l'exemple CAMO",sp:"Gén. Schill (CEMAT) · Gén. Baugnée (BE)",d:"Le partenariat franco-belge « Capacité Motorisée » : véhicules SCORPION, doctrine commune, formation partagée.",tag:"Coalition"},
+     {t:"13:30–14:00",room:"Salle CHARLIE",n:"Production sous tension & régénération capacitaire",sp:"DGA",d:"Produire en contexte de tension et régénérer les ressources dans la durée pour soutenir l'effort de défense.",tag:"Industrie"},
+     {t:"13:30–14:00",room:"Salle DELTA",n:"RETEX Ukraine — leçons stratégiques & capacitaires",sp:"LCL Nerich (CCF) · V. Kotsiuba (UKR)",d:"Témoignage direct du front, analyse de l'évolution du conflit et enseignements pour l'armée de Terre.",tag:"RETEX"},
+     {t:"14:00–15:00",room:"Salle BRAVO",n:"Futures capacités de l'A400M",sp:"DGA",d:"Cas d'usage liés au largage de drones et capacités multi-missions au profit du combat aéroterrestre.",tag:"Logistique"},
+     {t:"15:00–16:00",room:"Salle CHARLIE",n:"Soutien haute intensité en milieu terrestre",sp:"SCA & industriels",d:"Élongations logistiques, conditions extrêmes, résilience et co-développement public-privé.",tag:"Logistique"}]},
+   {num:"J3",date:"MER 17",short:"Industrie, feux & stratégie",
+    title:"Mercredi 17 — Montée en puissance industrielle & feux de précision",
+    desc:"Production sous tension, adaptation des programmes d'armement, munitions intelligentes et stratégie grand froid : la journée la plus « industrielle » du programme ministériel.",
+    confs:[
+     {t:"10:30–11:00",room:"Plateau TV",n:"Interview — interopérabilité & coalition",sp:"GDI Helluy (COM DIV1)",d:"Le regard d'un commandant de division sur l'engagement en coalition aéroterrestre.",tag:"Coalition"},
+     {t:"12:30",room:"Stand MINARM",n:"Prise de parole du CEMAT (sur invitation)",sp:"CEMAT",d:"S'engager et vaincre en coalition aéroterrestre. Accès sur invitation, accréditation médias via le SIRPAT.",tag:"Institutionnel"},
+     {t:"13:00–14:00",room:"Salle DELTA",n:"Montée en puissance de l'appareil industriel de défense",sp:"DGA",d:"Production, réactivité et adaptation pour répondre aux exigences capacitaires des forces dans la durée.",tag:"Industrie"},
+     {t:"13:00–14:00",room:"Salle CHARLIE",n:"Cycle de vie des programmes : s'adapter aux ruptures",sp:"DGA",d:"Flexibilité, anticipation et transformation des processus capacitaires face aux ruptures rapides et brutales.",tag:"Industrie"},
+     {t:"13:00–14:00",room:"Salle CHARLIE",n:"Roquettes téléguidées laser & munitions intelligentes",sp:"DGA",d:"Capacités de précision, appui-feu dans la profondeur et apports technologiques aux forces engagées.",tag:"Feux"},
+     {t:"13:30–14:00",room:"Salle ALPHA",n:"Grand froid & conflictualité stratégique",sp:"Directeur de la DGRIS",d:"Dynamiques stratégiques en zones arctiques et subarctiques : anticiper, planifier, agir.",tag:"Stratégie"},
+     {t:"14:30–15:30",room:"Zone démos",n:"Présentation dynamique de l'armée de Terre",sp:"Armée de Terre",d:"Engagement opérationnel majeur de type haute intensité.",tag:"Démo"}]},
+   {num:"J4",date:"JEU 18",short:"Robotique, drones & IA de combat",
+    title:"Jeudi 18 — Robotique terrestre, plateformes autonomes & IA",
+    desc:"Journée officiellement dédiée à la robotique terrestre, aux plateformes autonomes et à l'IA appliquée aux systèmes de combat. LA journée pour les profils produit & IA.",
+    confs:[
+     {t:"11:00",room:"Stand GICAT",n:"Remise du trophée « drones »",sp:"Présidée par le CEMAT",d:"Challenge international de drones FPV militaires : 64 équipes, organisé par le 61e RA et l'école des drones de la 19e BART.",tag:"Drones"},
+     {t:"12:00–13:00",room:"Lieu à préciser",n:"La BITD européenne au service de la souveraineté",sp:"DGA",d:"Réarmement européen : équilibre entre BITD nationales, coopération européenne et dépendances extérieures.",tag:"Industrie"},
+     {t:"13:00–13:30",room:"Salle DELTA",n:"Robotique terrestre — état de l'art des plateformes",sp:"LCL Sanchez (STAT)",d:"La robotique comme levier capacitaire : protection du combattant, autonomie, endurance énergétique, généralisation à l'horizon 2030.",tag:"Robotique"},
+     {t:"13:30–14:30",room:"Salle DELTA",n:"IA & automatisation des systèmes de combat",sp:"CCF · industriel IA · AMIAD",d:"Vers une nouvelle génération de capacités : besoins et travaux pour un combat aéroterrestre automatisé porté par l'IA.",tag:"IA"}]},
+   {num:"J5",date:"VEN 19",short:"International & clôture",
+    title:"Vendredi 19 — Coopération internationale & clôture",
+    desc:"Journée de clôture, plus calme et ouverte aux étudiants : coopération de sécurité et de défense, dernière présentation dynamique. Le bon moment pour des échanges approfondis sur les stands.",
+    confs:[
+     {t:"10:00–11:00",room:"Salle BRAVO",n:"DCSD — catalyseur interministériel du SOUTEX",sp:"DCSD",d:"300 coopérants dans 60 pays partenaires : la diplomatie française de sécurité, de protection civile et de défense au service de la BITD.",tag:"International"},
+     {t:"11:00–12:00",room:"Zone démos",n:"Présentation dynamique de l'armée de Terre",sp:"Armée de Terre",d:"Dernière présentation dynamique du salon — séance ouverte notamment aux étudiants.",tag:"Démo"}]}
+  ],
+  zones:{
+    zHall4:{id:"ZONE 01 · HALL 4",name:"Hall 4 — Nouveau",
+      desc:"Ouvert pour l'édition 2026 : le salon passe à plus de 185 000 m², les quatre halls sont complets. Grandes plateformes et exposition générale.",
+      items:["Grands systémiers & plateformes terrestres","Pavillons nationaux","Nouveaux exposants 2026 (61+ pays)"]},
+    zHall5A:{id:"ZONE 02 · HALL 5A",name:"Hall 5A — Systémiers & électronique",
+      desc:"Au centre du site, relié à l'esplanade : maîtres d'œuvre, électronique de défense, systèmes de mission. Emplacements exacts sur le plan officiel.",
+      items:["Systèmes de missiles & interception","Électronique de défense & systèmes de mission","Intégrateurs & ESN défense"]},
+    zHall5B:{id:"ZONE 03 · HALL 5B",name:"Hall 5B — Eurosatory LAB",
+      desc:"Au nord du site, près des parkings Pe4/Pe5 : startups françaises et internationales, pitchs quotidiens, vote « Start-up of the day ». Zone à haute densité de conversations produit & IA.",
+      items:["Startups défense & dual-use","Pitchs & démos quotidiens","Incubateurs & fonds défense"]},
+    zHall6:{id:"ZONE 04 · HALL 6",name:"Hall 6 — Clusters technologiques",
+      desc:"À l'est du site, côté A104 : exposants regroupés par thème pour un parcours efficace.",
+      items:["Drones & robotique","Cyberdéfense & renseignement","Formation & simulation","Sécurité civile"]},
+    zDemo:{id:"ZONE 05 · NORD-OUEST",name:"Zone de démonstrations",
+      desc:"Au nord-ouest du site : équipements en conditions opérationnelles et présentations dynamiques de l'armée de Terre. Arrivez en avance, les gradins se remplissent vite.",
+      items:["Présentations dynamiques (mar · mer · ven)","Engagement haute intensité en coalition","Démonstrations drones & véhicules"]},
+    zPlaza:{id:"ZONE 06 · ESPLANADE",name:"Esplanade centrale — Services",
+      desc:"Le carrefour du site, entre les quatre halls : restauration, points info, sanitaires. Le bon spot pour une pause, un appel ou un rendez-vous.",
+      items:["Restaurants & points de restauration","Points info & vestiaires","Sanitaires","Espace au calme pour appels & visios"]},
+    mP1:{id:"REPÈRE · PARKING",name:"Parking P1 — Ouest",
+      desc:"Grand parking à l'ouest du site, près de la zone de démonstrations. Affectation (visiteurs/exposants) à vérifier sur le plan officiel. Navettes vers les entrées.",items:[]},
+    mP11a:{id:"REPÈRE · PARKING",name:"Parking P11a — Nord-Ouest",
+      desc:"Parking au nord-ouest, à proximité de la zone de démonstrations. Navettes et cheminement piéton vers le Hall 5B.",items:[]},
+    mP3:{id:"REPÈRE · PARKING",name:"Parking P3 — Nord-Est",
+      desc:"Parking au nord-est du site, accès pratique vers le Hall 5B et l'entrée nord. Affectation à vérifier sur le plan officiel.",items:[]},
+    mPe4:{id:"REPÈRE · PARKING",name:"Parking Pe4",
+      desc:"Parking au pied du Hall 5B, côté ouest. Généralement réservé — vérifiez votre droit d'accès sur votre badge ou le plan officiel.",items:[]},
+    mPe5:{id:"REPÈRE · PARKING",name:"Parking Pe5",
+      desc:"Parking au pied du Hall 5B, côté est, proche du point info. Généralement réservé — vérifiez votre droit d'accès.",items:[]},
+    mPe1:{id:"REPÈRE · PARKING",name:"Parking Pe1 — Sud",
+      desc:"Parking au sud du site, le plus proche de l'entrée principale et de la gare RER. Généralement réservé — vérifiez votre droit d'accès.",items:[]},
+    mRER:{id:"REPÈRE · TRANSPORT",name:"RER B — Parc des Expositions",
+      desc:"La gare dessert directement l'entrée sud du salon. Ligne directe depuis Paris (Gare du Nord ≈ 25 min) et depuis l'aéroport CDG. L'option la plus simple pour venir.",items:[]},
+    mFood:{id:"REPÈRE · SERVICES",name:"Restauration",
+      desc:"Restaurants et points de restauration concentrés sur l'esplanade centrale, avec d'autres espaces dans chaque hall. Pensez à décaler votre pause pour éviter l'affluence de 12h30.",items:[]},
+    mInfo:{id:"REPÈRE · SERVICES",name:"Point info — Esplanade",
+      desc:"Accueil, orientation, plans papier et assistance visiteurs au cœur du site.",items:[]},
+    mInfo2:{id:"REPÈRE · SERVICES",name:"Point info — Hall 5B",
+      desc:"Point d'information à proximité du Hall 5B et du Eurosatory LAB.",items:[]},
+    mWC:{id:"REPÈRE · SERVICES",name:"Sanitaires",
+      desc:"Sanitaires sur l'esplanade centrale — d'autres sont répartis dans chaque hall.",items:[]}
+  },
+  prac:[
+    {ico:"Adresse & accès",body:"<b>Parc des Expositions Paris-Nord Villepinte</b> — ZAC Paris Nord 2, 93420 Villepinte. RER B station « Parc des Expositions » (entrée sud) · voiture : A104 / D40 · parkings P1, P3, Pe1–Pe5."},
+    {ico:"Horaires",body:"Ouvert de <b>9h00 à 17h00</b> du lundi 15 au jeudi 18. Vendredi 19 : journée de clôture, horaires à confirmer sur l'app officielle. Accès réservé aux professionnels accrédités (badge)."},
+    {ico:"Restauration",body:"Restaurants et points de restauration concentrés sur <b>l'esplanade centrale</b> entre les halls, plus des espaces dans chaque hall. Le Cocktail Lab du LAB est un bon plan networking du midi."},
+    {ico:"Services",body:"Points info, sanitaires et vestiaires dans chaque hall. L'esplanade et les abords des halls offrent des coins plus calmes pour <b>passer un appel</b> ou préparer un rendez-vous. Navettes depuis les parkings éloignés."}
+  ],
+  targets:[
+    {n:"MBDA",d:"Missiles & systèmes d'interception — leader européen"},
+    {n:"Thales",d:"Électronique de défense, radars, cyber & IA"},
+    {n:"Safran",d:"Propulsion, optronique, navigation & drones"},
+    {n:"Airbus Defence & Space",d:"Aéronefs militaires, spatial & systèmes connectés"},
+    {n:"KNDS",d:"Systèmes terrestres : chars, artillerie, véhicules blindés"},
+    {n:"Capgemini Invent",d:"Conseil en transformation digitale & innovation défense"},
+    {n:"Startups Eurosatory LAB",d:"L'écosystème innovation & dual-use, Hall 5B"}
+  ]
+},
+en:{
+  eyebrow:"Eurosatory 2026 · Paris-Nord Villepinte · June 15–19",
+  title:"Flight Plan", thin:"/ visitor guide",
+  sub:'The world\u2019s leading land and air-land defence exhibition: <b>2,000+ exhibitors</b>, <b>185,000 m²</b>, <b>120+ conferences</b>. Pick a day, tap a zone, plot your trajectory.',
+  secConf:"Conferences",
+  viewDay:"Day programme", viewMine:"My selection",
+  confNote:"Official selection — French Ministry of the Armed Forces conferences. 120+ conferences in total: full programme on the Eurosatory app. Tap ★ to build your agenda.",
+  mineEmpty:"Your selection is empty.<br>Browse the days and tap ★ on the conferences you care about.",
+  mineNote:"Selection kept for this session only (cleared on reload) — copy it to keep it.",
+  copyBtn:"Copy my selection", copied:"Copied ✓",
+  secMap:"Tactical map — Villepinte site",
+  secPrac:"Practical info",
+  secTargets:"Priority targets — exhibitors to track down",
+  mapNote:"Based on the official site map · everything is tappable: halls, parking, services",
+  mapLegend:"P parking · R food · i info point · WC restrooms · RER B to the south",
+  zoneEmpty:"Nothing selected.<br>Tap a hall, a parking area or a marker on the map.",
+  footer:["SOURCES: EUROSATORY.COM · PROGRAMME: FRENCH MOD, REUSED UNDER THE ETALAB 2.0 OPEN LICENCE", "TIMES & LOCATIONS TO VERIFY ON THE OFFICIAL APP", "<span style='color: #ffb454'>UNOFFICIAL GUIDE prepared by ", "<a href='https://www.linkedin.com/in/rianago' style='color: #4fd8eb'>Riana Terter"],
+  subs:{sub4:"NEW · 2026",sub5A:"PRIMES",sub5B:"EUROSATORY LAB",sub6:"TECH CLUSTERS",lblDemo:"Demo zone",subDemo:"LIVE DEMOS",lblPlaza:"Plaza",subPlaza:"SERVICES"},
+  days:[
+   {num:"D1",date:"MON 15",short:"Opening & air-land operations",
+    title:"Monday 15 — Opening & air-land operations",
+    desc:"Kick-off day. Institutional keynotes set the 2026 themes: capability transformation, adaptation to new operational environments and multi-domain superiority.",
+    confs:[
+     {t:"13:00–13:30",room:"BRAVO Room",n:"Helicopters & tactical air-ground projection",sp:"BG Doutaud (EALAT)",d:"The role of helicopters in air-land operations: speed, depth, flexibility and drone integration.",tag:"Air mobility"},
+     {t:"14:00–15:00",room:"CHARLIE Room",n:"Interoperability & expanded coalitions",sp:"LtGen de Montenon (FR) · LtGen Stenning (UK)",d:"Coordination and information sharing between allied forces, from a technological and digital angle.",tag:"Coalition"},
+     {t:"15:00–16:00",room:"BRAVO Room",n:"Future air-land action — 2040 horizon",sp:"COL Lorvoire · COL Doithier (FCC)",d:"The French Army\u2019s new strategic document: a forward-looking vision of air-land combat and the capabilities to prepare.",tag:"Foresight"},
+     {t:"15:00–15:30",room:"CHARLIE Room",n:"Address by the Major General of the Air and Space Force",sp:"French Air and Space Force",d:"Air Force priorities: capability transformation, new operational environments, multi-domain superiority.",tag:"Institutional"},
+     {t:"15:30–16:00",room:"CHARLIE Room",n:"Address by the Director General of Armaments (TBC)",sp:"DGA",d:"Capability, industrial and technological stakes of preparing defence equipment.",tag:"Institutional"},
+     {t:"16:30–17:00",room:"ESY TV Studio",n:"Interview — industrialising innovation",sp:"LtGen Baratz (Future Combat Command)",d:"Industrialising innovation in support of the French Army\u2019s transformation.",tag:"Innovation"}]},
+   {num:"D2",date:"TUE 16",short:"Transformation, data & coalition",
+    title:"Tuesday 16 — Army transformation & connected combat",
+    desc:"A packed day: the Army Chief of Staff on set, the TITAN data-centric combat network, the Franco-Belgian CAMO partnership and a Ukraine lessons-learned session with a Ukrainian officer. Ideal for transformation & digital profiles.",
+    confs:[
+     {t:"10:00–12:00",room:"COGES TV Studio",n:"Interview with the Chief of Staff of the Army",sp:"Army Chief of Staff",d:"Land forces transformation, capability stakes, operational innovation and preparing future engagements.",tag:"Institutional"},
+     {t:"10:00–11:00",room:"CHARLIE Room",n:"Exploratory hubs & local innovation",sp:"BG Amonnier · M. Boyer · CPT Lefebvre · WO Gledel",d:"The hubs created by the Future Combat Command to channel innovation and build local ecosystems.",tag:"Innovation"},
+     {t:"11:30–12:00",room:"CHARLIE Room",n:"TITAN — towards a data-centric combat network",sp:"COL Picot (Army HQ)",d:"Defence cloud and tactical data: the future architectures of connected combat.",tag:"Digital"},
+     {t:"11:30–12:30",room:"Demo zone",n:"Dynamic presentation of the French Army",sp:"French Army",d:"High-intensity engagement: an interoperable, digitised force able to win in coalition.",tag:"Demo"},
+     {t:"12:00–13:00",room:"CHARLIE Room",n:"Capability cooperation: the CAMO example",sp:"Gen. Schill (FR) · Gen. Baugn\u00e9e (BE)",d:"The Franco-Belgian \u201CMotorized Capability\u201D partnership: SCORPION vehicles, shared doctrine and training.",tag:"Coalition"},
+     {t:"13:30–14:00",room:"CHARLIE Room",n:"Production under pressure & capability regeneration",sp:"DGA",d:"Producing under strain and regenerating resources over time to sustain the defence effort.",tag:"Industry"},
+     {t:"13:30–14:00",room:"DELTA Room",n:"Ukraine lessons learned — strategic & capability insights",sp:"LTC Nerich (FCC) · V. Kotsiuba (UKR)",d:"First-hand frontline testimony, conflict analysis and operational lessons for the French Army.",tag:"Lessons"},
+     {t:"14:00–15:00",room:"BRAVO Room",n:"Future A400M capabilities",sp:"DGA",d:"Use cases around drone deployment and future multi-mission capabilities for air-land combat.",tag:"Logistics"},
+     {t:"15:00–16:00",room:"CHARLIE Room",n:"High-intensity support in the land environment",sp:"SCA & industry",d:"Long-distance deployments, extreme conditions, resilience and public-private co-development.",tag:"Logistics"}]},
+   {num:"D3",date:"WED 17",short:"Industry, fires & strategy",
+    title:"Wednesday 17 — Industrial ramp-up & precision fires",
+    desc:"Production under pressure, adapting armament programmes, smart munitions and cold-region strategy: the most \u201Cindustrial\u201D day of the ministry programme.",
+    confs:[
+     {t:"10:30–11:00",room:"TV set",n:"Interview — interoperability & coalition",sp:"MajGen Helluy (1st Division)",d:"A division commander\u2019s perspective on air-land coalition engagement.",tag:"Coalition"},
+     {t:"12:30",room:"MoD stand",n:"Speech by the Army Chief of Staff (by invitation)",sp:"Army Chief of Staff",d:"Engaging and winning in an air-land coalition. Access by invitation; media accreditation via SIRPAT.",tag:"Institutional"},
+     {t:"13:00–14:00",room:"DELTA Room",n:"Supporting the ramp-up of the defence industrial base",sp:"DGA",d:"Production, responsiveness and adaptation to meet the forces\u2019 capability requirements over time.",tag:"Industry"},
+     {t:"13:00–14:00",room:"CHARLIE Room",n:"Programme lifecycle: adapting to abrupt disruptions",sp:"DGA",d:"Flexibility, anticipation and transformation of capability processes in a fast-changing environment.",tag:"Industry"},
+     {t:"13:00–14:00",room:"CHARLIE Room",n:"Laser-guided rockets & smart munitions",sp:"DGA",d:"Precision capabilities, deep fire support and technological contributions to deployed forces.",tag:"Fires"},
+     {t:"13:30–14:00",room:"ALPHA Room",n:"Extreme cold & strategic competition",sp:"DGRIS Director",d:"Strategic dynamics in Arctic and sub-Arctic regions: anticipate, plan, act.",tag:"Strategy"},
+     {t:"14:30–15:30",room:"Demo zone",n:"Dynamic presentation of the French Army",sp:"French Army",d:"A major high-intensity operational engagement.",tag:"Demo"}]},
+   {num:"D4",date:"THU 18",short:"Robotics, drones & combat AI",
+    title:"Thursday 18 — Land robotics, autonomous platforms & AI",
+    desc:"Officially dedicated to land robotics, autonomous platforms and AI applied to combat systems. THE day for product & AI profiles.",
+    confs:[
+     {t:"11:00",room:"GICAT stand",n:"\u201CDrones\u201D trophy ceremony",sp:"Presided by the Army Chief of Staff",d:"International military FPV drone challenge: 64 teams, organised by the 61st Artillery Regiment and the Drone School.",tag:"Drones"},
+     {t:"12:00–13:00",room:"Location TBC",n:"The European defence industrial base serving sovereignty",sp:"DGA",d:"European rearmament: balancing national industrial bases, European cooperation and external dependencies.",tag:"Industry"},
+     {t:"13:00–13:30",room:"DELTA Room",n:"Ground robotics — state of the art",sp:"LTC Sanchez (STAT)",d:"Robotics as a capability lever: protecting soldiers, autonomy, energy endurance, scaling by 2030.",tag:"Robotics"},
+     {t:"13:30–14:30",room:"DELTA Room",n:"AI & automation of combat systems",sp:"FCC · AI industry expert · AMIAD",d:"Towards a new generation of capabilities: needs and ongoing work for AI-powered, automated air-land combat.",tag:"AI"}]},
+   {num:"D5",date:"FRI 19",short:"International & closing",
+    title:"Friday 19 — International cooperation & closing day",
+    desc:"Closing day, quieter and open to students: security and defence cooperation, last dynamic presentation. The right moment for in-depth conversations on the stands.",
+    confs:[
+     {t:"10:00–11:00",room:"BRAVO Room",n:"DCSD — interministerial catalyst for defence exports",sp:"DCSD",d:"300 staff in 60 partner countries: French security, civil protection and defence diplomacy supporting industry.",tag:"International"},
+     {t:"11:00–12:00",room:"Demo zone",n:"Dynamic presentation of the French Army",sp:"French Army",d:"The show\u2019s final dynamic presentation — a session notably open to students.",tag:"Demo"}]}
+  ],
+  zones:{
+    zHall4:{id:"ZONE 01 · HALL 4",name:"Hall 4 — New",
+      desc:"Opened for the 2026 edition: the show grows beyond 185,000 m² and all four halls are fully booked. Major platforms and general exhibition.",
+      items:["Major primes & land platforms","National pavilions","New 2026 exhibitors (61+ countries)"]},
+    zHall5A:{id:"ZONE 02 · HALL 5A",name:"Hall 5A — Primes & electronics",
+      desc:"At the centre of the site, connected to the plaza: prime contractors, defence electronics, mission systems. Exact locations on the official floor plan.",
+      items:["Missile & interception systems","Defence electronics & mission systems","Defence integrators & consultancies"]},
+    zHall5B:{id:"ZONE 03 · HALL 5B",name:"Hall 5B — Eurosatory LAB",
+      desc:"North of the site, near the Pe4/Pe5 parking: French and international startups, daily pitches, the \u201CStart-up of the day\u201D vote. High density of product & AI conversations.",
+      items:["Defence & dual-use startups","Daily pitches & demos","Incubators & defence funds"]},
+    zHall6:{id:"ZONE 04 · HALL 6",name:"Hall 6 — Technology clusters",
+      desc:"East of the site, by the A104: exhibitors grouped by theme for an efficient visit.",
+      items:["Drones & robotics","Cyber defence & intelligence","Training & simulation","Civil security"]},
+    zDemo:{id:"ZONE 05 · NORTH-WEST",name:"Demonstration area",
+      desc:"North-west of the site: equipment in operational conditions and the French Army\u2019s dynamic presentations. Arrive early — the stands fill up fast.",
+      items:["Dynamic presentations (Tue · Wed · Fri)","High-intensity coalition engagement","Drone & vehicle demonstrations"]},
+    zPlaza:{id:"ZONE 06 · PLAZA",name:"Central plaza — Services",
+      desc:"The crossroads of the site, between the four halls: food, info points, restrooms. The right spot for a break, a call or a meeting.",
+      items:["Restaurants & food points","Info points & cloakrooms","Restrooms","Quiet corner for calls & video meetings"]},
+    mP1:{id:"MARKER · PARKING",name:"P1 parking — West",
+      desc:"Large parking area west of the site, near the demonstration zone. Check the assignment (visitors/exhibitors) on the official plan. Shuttles to the entrances.",items:[]},
+    mP11a:{id:"MARKER · PARKING",name:"P11a parking — North-West",
+      desc:"Parking to the north-west, close to the demonstration zone. Shuttles and walking route towards Hall 5B.",items:[]},
+    mP3:{id:"MARKER · PARKING",name:"P3 parking — North-East",
+      desc:"Parking north-east of the site, convenient for Hall 5B and the north entrance. Check the assignment on the official plan.",items:[]},
+    mPe4:{id:"MARKER · PARKING",name:"Pe4 parking",
+      desc:"Parking at the foot of Hall 5B, west side. Usually reserved — check your access rights on your badge or the official plan.",items:[]},
+    mPe5:{id:"MARKER · PARKING",name:"Pe5 parking",
+      desc:"Parking at the foot of Hall 5B, east side, near the info point. Usually reserved — check your access rights.",items:[]},
+    mPe1:{id:"MARKER · PARKING",name:"Pe1 parking — South",
+      desc:"Parking south of the site, closest to the main entrance and the RER station. Usually reserved — check your access rights.",items:[]},
+    mRER:{id:"MARKER · TRANSPORT",name:"RER B — Parc des Expositions",
+      desc:"The station serves the show\u2019s south entrance directly. Direct line from Paris (Gare du Nord ≈ 25 min) and from CDG airport. The simplest way to come.",items:[]},
+    mFood:{id:"MARKER · SERVICES",name:"Food",
+      desc:"Restaurants and food points concentrated on the central plaza, with more areas inside each hall. Shift your break to dodge the 12:30 rush.",items:[]},
+    mInfo:{id:"MARKER · SERVICES",name:"Info point — Plaza",
+      desc:"Welcome desk, orientation, paper maps and visitor assistance at the heart of the site.",items:[]},
+    mInfo2:{id:"MARKER · SERVICES",name:"Info point — Hall 5B",
+      desc:"Information point close to Hall 5B and the Eurosatory LAB.",items:[]},
+    mWC:{id:"MARKER · SERVICES",name:"Restrooms",
+      desc:"Restrooms on the central plaza — more are spread across each hall.",items:[]}
+  },
+  prac:[
+    {ico:"Address & access",body:"<b>Parc des Expositions Paris-Nord Villepinte</b> — ZAC Paris Nord 2, 93420 Villepinte, France. RER B \u201CParc des Expositions\u201D station (south entrance) · by car: A104 / D40 · parking P1, P3, Pe1–Pe5."},
+    {ico:"Opening hours",body:"Open <b>9:00 am to 5:00 pm</b>, Monday 15 to Thursday 18. Friday 19: closing day, hours to confirm on the official app. Access restricted to accredited professionals (badge)."},
+    {ico:"Food",body:"Restaurants and food points concentrated on the <b>central plaza</b> between the halls, plus areas inside each hall. The LAB\u2019s lunchtime Cocktail Lab is a great networking spot."},
+    {ico:"Services",body:"Info points, restrooms and cloakrooms in every hall. The plaza and hall edges offer quieter corners to <b>take a call</b> or prep a meeting. Shuttles from the remote parking areas."}
+  ],
+  targets:[
+    {n:"MBDA",d:"Missiles & interception systems — European leader"},
+    {n:"Thales",d:"Defence electronics, radars, cyber & AI"},
+    {n:"Safran",d:"Propulsion, optronics, navigation & drones"},
+    {n:"Airbus Defence & Space",d:"Military aircraft, space & connected systems"},
+    {n:"KNDS",d:"Land systems: tanks, artillery, armoured vehicles"},
+    {n:"Capgemini Invent",d:"Digital transformation consulting & defence innovation"},
+    {n:"Eurosatory LAB startups",d:"The innovation & dual-use ecosystem, Hall 5B"}
+  ]
+}
+};
+
+let lang="fr", dayIdx=0, zoneId=null, selShape=null, viewMode="day";
+const myConfs=new Set();
+
+const tabs=document.getElementById("dayTabs");
+const reticle=document.getElementById("reticle");
+
+function renderHeader(){
+  const t=I18N[lang];
+  document.documentElement.lang=lang;
+  document.getElementById("hEyebrow").textContent=t.eyebrow;
+  document.getElementById("hTitle").textContent=t.title;
+  document.getElementById("hThin").textContent=t.thin;
+  document.getElementById("hSub").innerHTML=t.sub;
+  document.getElementById("secConf").textContent=t.secConf;
+  document.getElementById("confNote").textContent=t.confNote;
+  document.getElementById("secMap").textContent=t.secMap;
+  document.getElementById("secPrac").textContent=t.secPrac;
+  document.getElementById("secTargets").textContent=t.secTargets;
+  document.getElementById("mapNote").textContent=t.mapNote;
+  document.getElementById("mapLegend").textContent=t.mapLegend;
+  Object.entries(t.subs).forEach(([id,v])=>{document.getElementById(id).textContent=v;});
+  document.getElementById("pageFooter").innerHTML=t.footer.map(f=>`<span>${f}</span>`).join("");
+  document.getElementById("btnFr").classList.toggle("on",lang==="fr");
+  document.getElementById("btnEn").classList.toggle("on",lang==="en");
+  renderViewButtons();
+}
+
+function renderViewButtons(){
+  const t=I18N[lang];
+  const vd=document.getElementById("viewDay"), vm=document.getElementById("viewMine");
+  vd.textContent=t.viewDay;
+  vm.textContent=t.viewMine+(myConfs.size?` (${myConfs.size})`:"");
+  vd.classList.toggle("on",viewMode==="day");
+  vm.classList.toggle("on",viewMode==="mine");
+}
+
+function renderTabs(){
+  const t=I18N[lang];
+  tabs.innerHTML="";
+  t.days.forEach((d,i)=>{
+    const b=document.createElement("button");
+    b.className="day"+(i===dayIdx?" active":"");
+    b.innerHTML=`<div class="d-num">${d.num}</div><div class="d-date">${d.date}</div><div class="d-theme">${d.short}</div>`;
+    b.addEventListener("click",()=>{dayIdx=i;viewMode="day";renderTabs();renderBanner();renderConfs();renderViewButtons();});
+    tabs.appendChild(b);
+  });
+}
+
+function renderBanner(){
+  const d=I18N[lang].days[dayIdx];
+  document.getElementById("bTitle").textContent=d.title;
+  document.getElementById("bDesc").textContent=d.desc;
+}
+
+function confCard(c,key,dayLabel){
+  const el=document.createElement("article");
+  el.className="conf"+(myConfs.has(key)?" faved":"");
+  const dl=dayLabel?`<span class="dlabel">${dayLabel}</span>`:"";
+  el.innerHTML=`<div class="when">${dl}<time>${c.t}</time><span class="room">${c.room}</span></div>
+    <div><h4>${c.n}</h4><div class="spk">${c.sp}</div><p>${c.d}</p><span class="tag">${c.tag}</span></div>
+    <button class="fav${myConfs.has(key)?" on":""}" data-key="${key}" aria-pressed="${myConfs.has(key)}" title="★">${myConfs.has(key)?"★":"☆"}</button>`;
+  el.querySelector(".fav").addEventListener("click",e=>{
+    const k=e.currentTarget.dataset.key;
+    if(myConfs.has(k)) myConfs.delete(k); else myConfs.add(k);
+    renderConfs();renderViewButtons();
+  });
+  return el;
+}
+
+function renderConfs(){
+  const t=I18N[lang];
+  const list=document.getElementById("confList");
+  list.innerHTML="";
+  if(viewMode==="day"){
+    t.days[dayIdx].confs.forEach((c,j)=>{
+      list.appendChild(confCard(c,`${dayIdx}-${j}`,null));
+    });
+  }else{
+    let count=0;
+    t.days.forEach((d,i)=>{
+      d.confs.forEach((c,j)=>{
+        const key=`${i}-${j}`;
+        if(myConfs.has(key)){list.appendChild(confCard(c,key,d.date));count++;}
+      });
+    });
+    if(count===0){
+      const e=document.createElement("div");
+      e.className="mine-empty";
+      e.innerHTML=t.mineEmpty;
+      list.appendChild(e);
+    }else{
+      const act=document.createElement("div");
+      act.className="mine-actions";
+      const btn=document.createElement("button");
+      btn.className="copy-btn";
+      btn.textContent=t.copyBtn;
+      btn.addEventListener("click",()=>copySelection(btn));
+      const note=document.createElement("span");
+      note.className="mine-note";
+      note.textContent=t.mineNote;
+      act.appendChild(btn);act.appendChild(note);
+      list.appendChild(act);
+    }
+  }
+}
+
+function copySelection(btn){
+  const t=I18N[lang];
+  const lines=[];
+  I18N[lang].days.forEach((d,i)=>{
+    d.confs.forEach((c,j)=>{
+      if(myConfs.has(`${i}-${j}`)) lines.push(`${d.date} · ${c.t} · ${c.room} — ${c.n} (${c.sp})`);
+    });
+  });
+  const text="EUROSATORY 2026 — "+(lang==="fr"?"MA SÉLECTION":"MY SELECTION")+"\n"+lines.join("\n");
+  const done=()=>{const o=btn.textContent;btn.textContent=t.copied;setTimeout(()=>{btn.textContent=t.copyBtn;},1600);};
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+  }else fallbackCopy(text,done);
+}
+function fallbackCopy(text,done){
+  const ta=document.createElement("textarea");
+  ta.value=text;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand("copy");}catch(e){}
+  document.body.removeChild(ta);done();
+}
+
+function renderZone(){
+  const card=document.getElementById("zoneCard");
+  const t=I18N[lang];
+  if(!zoneId){
+    card.innerHTML=`<div class="z-empty">${t.zoneEmpty}</div>`;
+    return;
+  }
+  const z=t.zones[zoneId];
+  card.innerHTML=`
+    <div class="z-id">${z.id}</div>
+    <h3>${z.name}</h3>
+    <p>${z.desc}</p>
+    ${z.items.length?`<ul class="z-list">${z.items.map(it=>`<li>${it}</li>`).join("")}</ul>`:""}`;
+}
+
+function renderPrac(){
+  const list=document.getElementById("pracList");
+  list.innerHTML="";
+  I18N[lang].prac.forEach(p=>{
+    const el=document.createElement("div");
+    el.className="p-card";
+    el.innerHTML=`<div class="p-ico">${p.ico}</div><div class="p-body">${p.body}</div>`;
+    list.appendChild(el);
+  });
+}
+
+function renderTargets(){
+  const list=document.getElementById("targetList");
+  list.innerHTML="";
+  I18N[lang].targets.forEach(tg=>{
+    const el=document.createElement("div");
+    el.className="t-card";
+    el.innerHTML=`<div class="t-name">${tg.n}</div><div class="t-desc">${tg.d}</div>`;
+    list.appendChild(el);
+  });
+}
+
+function renderAll(){renderHeader();renderTabs();renderBanner();renderConfs();renderZone();renderPrac();renderTargets();}
+
+document.getElementById("btnFr").addEventListener("click",()=>{lang="fr";renderAll();});
+document.getElementById("btnEn").addEventListener("click",()=>{lang="en";renderAll();});
+document.getElementById("viewDay").addEventListener("click",()=>{viewMode="day";renderConfs();renderViewButtons();});
+document.getElementById("viewMine").addEventListener("click",()=>{viewMode="mine";renderConfs();renderViewButtons();});
+
+document.querySelectorAll("g.zone, g.poi").forEach(g=>{
+  const shape=g.querySelector(".hall, .pmark, .amen");
+  g.addEventListener("click",()=>{
+    if(selShape) selShape.classList.remove("sel");
+    selShape=shape;
+    shape.classList.add("sel");
+    zoneId=g.id;
+    placeReticle(+g.dataset.cx, +g.dataset.cy);
+    renderZone();
+  });
+});
+
+function placeReticle(x,y){
+  document.getElementById("retC").setAttribute("cx",x);
+  document.getElementById("retC").setAttribute("cy",y);
+  const l1=document.getElementById("retL1");
+  l1.setAttribute("x1",x-38);l1.setAttribute("x2",x+38);l1.setAttribute("y1",y);l1.setAttribute("y2",y);
+  const l2=document.getElementById("retL2");
+  l2.setAttribute("x1",x);l2.setAttribute("x2",x);l2.setAttribute("y1",y-38);l2.setAttribute("y2",y+38);
+  reticle.classList.add("on");
+}
+
+renderAll();
+</script>
+</body>
+</html>
