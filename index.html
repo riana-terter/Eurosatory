@@ -19,32 +19,76 @@ body{font-family:'IBM Plex Mono',monospace;display:flex;flex-direction:column;ba
 }
 .side:hover,.side:focus-visible{flex:1.35}
 .side:focus-visible{outline:3px solid currentColor;outline-offset:-6px}
-/* left: the guide — tactical void */
+.side .content{position:relative;z-index:2}
+.deco{position:absolute;z-index:1;pointer-events:none}
+
+/* ============ left: the guide — tactical void ============ */
 .side.guide{background:#060A12;color:#D9E4F1}
-.side.guide::before{content:"";position:absolute;inset:0;pointer-events:none;background:
-  radial-gradient(1.5px 1.5px at 18% 22%, rgba(217,228,241,.7) 0, transparent 100%),
-  radial-gradient(1px 1px at 72% 14%, rgba(79,216,235,.7) 0, transparent 100%),
-  radial-gradient(1px 1px at 38% 68%, rgba(217,228,241,.45) 0, transparent 100%),
-  radial-gradient(1.5px 1.5px at 86% 56%, rgba(255,180,84,.5) 0, transparent 100%),
-  radial-gradient(1px 1px at 12% 84%, rgba(217,228,241,.5) 0, transparent 100%),
-  radial-gradient(ellipse 70% 45% at 50% -10%, rgba(79,216,235,.08), transparent 60%);}
+.side.guide::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(1.5px 1.5px at 18% 22%, rgba(217,228,241,.8) 0, transparent 100%),
+  radial-gradient(1px 1px at 72% 14%, rgba(79,216,235,.8) 0, transparent 100%),
+  radial-gradient(1px 1px at 38% 68%, rgba(217,228,241,.5) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 86% 56%, rgba(255,180,84,.6) 0, transparent 100%),
+  radial-gradient(1px 1px at 12% 84%, rgba(217,228,241,.55) 0, transparent 100%),
+  radial-gradient(1px 1px at 55% 35%, rgba(217,228,241,.4) 0, transparent 100%),
+  radial-gradient(2px 2px at 30% 45%, rgba(217,228,241,.45) 0, transparent 100%),
+  radial-gradient(1px 1px at 64% 88%, rgba(79,216,235,.5) 0, transparent 100%),
+  radial-gradient(1px 1px at 8% 38%, rgba(255,180,84,.45) 0, transparent 100%),
+  radial-gradient(1.5px 1.5px at 47% 8%, rgba(217,228,241,.55) 0, transparent 100%),
+  radial-gradient(ellipse 60% 40% at 80% 110%, rgba(124,92,210,.12), transparent 70%),
+  radial-gradient(ellipse 70% 45% at 50% -10%, rgba(79,216,235,.09), transparent 60%);}
+.planet-a{
+  width:240px;height:240px;top:-110px;left:-90px;border-radius:50%;opacity:.9;
+  background:radial-gradient(circle at 35% 35%, #1E3252 0%, #122039 45%, #080F1E 78%);
+  box-shadow:inset -28px -18px 50px rgba(0,0,0,.65), 0 0 80px rgba(79,216,235,.08);
+}
+.planet-b{
+  width:74px;height:74px;bottom:13%;right:9%;border-radius:50%;opacity:.85;
+  background:radial-gradient(circle at 35% 30%, #4C4066 0%, #241F3D 60%, #0E0C20 100%);
+  box-shadow:0 0 36px rgba(124,92,210,.12);
+}
+.ring-b{
+  width:130px;height:30px;bottom:calc(13% + 24px);right:calc(9% - 28px);
+  border:1.5px solid rgba(150,160,190,.5);border-radius:50%;transform:rotate(-18deg);
+}
+@media (prefers-reduced-motion: no-preference){
+  .side.guide::before{animation:twinkle 5.5s ease-in-out infinite alternate}
+  @keyframes twinkle{from{opacity:.65}to{opacity:1}}
+}
 .side.guide .go{color:#4FD8EB;border-color:#4FD8EB}
-/* right: the game — sunset poster */
+
+/* ============ right: the game — sunset poster ============ */
 .side.game{background:linear-gradient(180deg,#E8862E 0%,#D8751F 70%,#2B2722 70%,#2B2722 100%);color:#FAEFDD}
-.side.game::before{content:"";position:absolute;left:0;right:0;top:54%;height:16%;pointer-events:none;
-  background:
-   linear-gradient(0deg, transparent 0, transparent 100%),
-   repeating-linear-gradient(90deg, transparent 0 6%, rgba(43,39,34,.95) 6% 10%, transparent 10% 13%, rgba(43,39,34,.95) 13% 19%, transparent 19% 24%, rgba(43,39,34,.95) 24% 27%, transparent 27% 33%, rgba(43,39,34,.95) 33% 40%, transparent 40% 100%);
+.side.game::before{content:"";position:absolute;left:0;right:0;top:54%;height:16%;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg, transparent 0 6%, rgba(43,39,34,.95) 6% 10%, transparent 10% 13%, rgba(43,39,34,.95) 13% 19%, transparent 19% 24%, rgba(43,39,34,.95) 24% 27%, transparent 27% 33%, rgba(43,39,34,.95) 33% 40%, transparent 40% 100%);
   mask:linear-gradient(0deg,#000 0 55%,transparent 100%);
   -webkit-mask:linear-gradient(0deg,#000 0 55%,transparent 100%);}
 .side.game .go{color:#FAEFDD;border-color:#FAEFDD}
+.reticle{top:9%;right:10%;width:96px;height:96px;opacity:.9}
+@media (prefers-reduced-motion: no-preference){
+  .reticle{animation:pulse 2.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.07);opacity:.65}}
+}
+.missile{top:calc(9% + 16px);right:calc(10% - 14px);width:120px;height:60px;opacity:.95}
+.drone{top:44%;right:22%;width:64px;height:40px}
+@media (prefers-reduced-motion: no-preference){
+  .drone{animation:bob 3.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+}
+.liner{top:11%;left:6vw;width:140px;height:40px;opacity:.95}
+@media (prefers-reduced-motion: no-preference){
+  .liner{animation:drift 7s ease-in-out infinite}
+  @keyframes drift{0%,100%{transform:translateX(0)}50%{transform:translateX(14px)}}
+}
+
+/* ============ shared type ============ */
 .eyebrow{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;opacity:.75;margin-bottom:14px}
 h2{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(1.6rem,3.6vw,2.7rem);
-  letter-spacing:.04em;line-height:1.06;text-transform:uppercase;margin-bottom:12px;position:relative}
-.desc{font-size:.82rem;line-height:1.6;opacity:.85;max-width:42ch;margin-bottom:22px;position:relative}
+  letter-spacing:.04em;line-height:1.06;text-transform:uppercase;margin-bottom:12px}
+.desc{font-size:.82rem;line-height:1.6;opacity:.85;max-width:42ch;margin-bottom:22px}
 .desc .en{display:block;font-size:.7rem;opacity:.7;margin-top:6px;font-style:italic}
 .go{
-  position:relative;align-self:flex-start;font-family:'Chakra Petch',sans-serif;font-weight:600;
+  align-self:flex-start;display:inline-block;font-family:'Chakra Petch',sans-serif;font-weight:600;
   font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;
   border:1.5px solid;border-radius:8px;padding:11px 20px;
   transition:transform .15s;
@@ -61,6 +105,9 @@ h2{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(1.6rem,
   .split{flex-direction:column}
   .side{padding:9vh 8vw}
   .side:hover,.side:focus-visible{flex:1.2}
+  .reticle{width:70px;height:70px}
+  .missile{width:90px;height:45px;top:calc(9% + 12px);right:calc(10% - 10px)}
+  .liner{left:8vw}
 }
 @media (prefers-reduced-motion: reduce){
   .side,.go{transition:none}
@@ -69,23 +116,76 @@ h2{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(1.6rem,
 </head>
 <body>
 <div class="split">
+
   <a class="side guide" href="plan-de-vol.html">
-    <div class="eyebrow">Eurosatory 2026 · 15–19 juin · Villepinte</div>
-    <h2>Plan de vol<br>/ Flight plan</h2>
-    <p class="desc">Le guide visiteur interactif : programme officiel des conférences du ministère des Armées, carte tactique du site, agenda personnalisable. Bilingue FR/EN.
-      <span class="en">The interactive visitor guide — official conference programme, tactical site map, personal agenda.</span></p>
-    <span class="go">Préparer ma visite →</span>
+    <div class="deco planet-a"></div>
+    <div class="deco planet-b"></div>
+    <div class="deco ring-b"></div>
+    <div class="content">
+      <div class="eyebrow">Eurosatory 2026 · 15–19 juin · Villepinte</div>
+      <h2>Plan de vol<br>/ Flight plan</h2>
+      <p class="desc">Le guide visiteur interactif : programme officiel des conférences du ministère des Armées, carte tactique du site, agenda personnalisable. Bilingue FR/EN.
+        <span class="en">The interactive visitor guide — official conference programme, tactical site map, personal agenda.</span></p>
+      <span class="go">Préparer ma visite →</span>
+    </div>
   </a>
+
   <a class="side game" href="ciel-clair.html">
-    <div class="eyebrow">Jeu d'arcade · Lutte anti-drones</div>
-    <h2>Ciel clair<br>/ Clear skies</h2>
-    <p class="desc">Le jeu d'interception : 5 niveaux, des drones, des missiles — et des avions civils à ne surtout pas toucher. Copiez votre score, défiez les commentaires.
-      <span class="en">The interception game — 5 levels, drones, missiles, and civilian airliners you must not hit.</span></p>
-    <span class="go">Lancer la campagne →</span>
+    <!-- airliner with contrail -->
+    <svg class="deco liner" viewBox="0 0 140 40">
+      <line x1="0" y1="20" x2="44" y2="20" stroke="rgba(250,250,250,.45)" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="92" cy="20" rx="26" ry="6" fill="#F4F2EC"/>
+      <path d="M73 18 L64 6 L70 6 L79 17 Z" fill="#C8372D"/>
+      <path d="M95 21 L82 33 L89 34 L101 23 Z" fill="#D9D5CB"/>
+      <ellipse cx="90" cy="28" rx="4.5" ry="2.6" fill="#8E887C"/>
+      <ellipse cx="113" cy="18.6" rx="3.6" ry="2.2" fill="#3FBFC4"/>
+      <g fill="#5A6E7E">
+        <circle cx="78" cy="18.4" r="1.1"/><circle cx="83" cy="18.4" r="1.1"/><circle cx="88" cy="18.4" r="1.1"/>
+        <circle cx="93" cy="18.4" r="1.1"/><circle cx="98" cy="18.4" r="1.1"/><circle cx="103" cy="18.4" r="1.1"/>
+      </g>
+    </svg>
+    <!-- diving missile with dashed trail -->
+    <svg class="deco missile" viewBox="0 0 120 60">
+      <line x1="6" y1="6" x2="52" y2="29" stroke="rgba(250,239,221,.55)" stroke-width="2.5" stroke-dasharray="3 6" stroke-linecap="round"/>
+      <g transform="translate(78,42) rotate(27)">
+        <path d="M14 0 L-8 -4.5 L-8 4.5 Z" fill="#332E27"/>
+        <path d="M-8 -4.5 L-13 -7 L-13 7 L-8 4.5 Z" fill="#C8372D"/>
+        <path d="M-13 0 L-24 0 L-13 3 Z" fill="#FAEFDD"/>
+      </g>
+    </svg>
+    <!-- drone -->
+    <svg class="deco drone" viewBox="0 0 64 40">
+      <g transform="translate(32,20)">
+        <path d="M-13 -9 L13 9 M13 -9 L-13 9" stroke="#332E27" stroke-width="3.4"/>
+        <ellipse cx="0" cy="0" rx="9" ry="5.6" fill="#332E27"/>
+        <rect x="-20" y="-10.5" width="15" height="3" rx="1.5" fill="#4A443B"/>
+        <rect x="5" y="-10.5" width="15" height="3" rx="1.5" fill="#4A443B"/>
+        <rect x="-20" y="7.5" width="15" height="3" rx="1.5" fill="#4A443B"/>
+        <rect x="5" y="7.5" width="15" height="3" rx="1.5" fill="#4A443B"/>
+        <circle cx="0" cy="-4" r="2.2" fill="#C8372D"/>
+      </g>
+    </svg>
+    <!-- targeting reticle -->
+    <svg class="deco reticle" viewBox="0 0 96 96">
+      <circle cx="48" cy="48" r="30" fill="none" stroke="#2B2722" stroke-width="3"/>
+      <g stroke="#2B2722" stroke-width="3" stroke-linecap="round">
+        <line x1="48" y1="4" x2="48" y2="24"/><line x1="48" y1="72" x2="48" y2="92"/>
+        <line x1="4" y1="48" x2="24" y2="48"/><line x1="72" y1="48" x2="92" y2="48"/>
+      </g>
+      <circle cx="48" cy="48" r="4" fill="#C8372D"/>
+    </svg>
+    <div class="content">
+      <div class="eyebrow">Jeu d'arcade · Lutte anti-drones</div>
+      <h2>Ciel clair<br>/ Clear skies</h2>
+      <p class="desc">Le jeu d'interception : 5 niveaux, des drones, des missiles — et des avions civils à ne surtout pas toucher. Copiez votre score, défiez les commentaires.
+        <span class="en">The interception game — 5 levels, drones, missiles, and civilian airliners you must not hit.</span></p>
+      <span class="go">Lancer la campagne →</span>
+    </div>
   </a>
+
 </div>
 <div class="bar">
-  <span>Deux expériences conçues par <strong>Riana Terter</strong> · Série #100AIExperiments · Réalisées avec Claude Fable</span>
+  <span>Deux expériences conçues par <span style='color: #ffb454'>Riana Terter</span> · Série #100AIExperiments · Réalisées avec Claude Fable</span>
   <a href="https://www.linkedin.com/in/rianago/" target="_blank" rel="noopener">linkedin.com/in/rianago</a>
 </div>
 </body>
